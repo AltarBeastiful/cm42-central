@@ -60,7 +60,7 @@ describe "Projects" do
     it "edits a project" do
       visit projects_path
       within('#projects') do
-        click_on 'settings'
+        click_on 'Settings'
       end
 
       fill_in 'Name', with: 'New Project Name'
@@ -72,7 +72,7 @@ describe "Projects" do
     it "shows form errors" do
       visit projects_path
       within('#projects') do
-        click_on 'settings'
+        click_on 'Settings'
       end
 
       fill_in 'Name', with: ''
@@ -145,4 +145,39 @@ describe "Projects" do
     end
   end
 
+  describe "join project" do
+    let(:project) { create :project }
+
+    before do
+      team.ownerships.create(project: project, is_owner: true)
+    end
+
+    it "join a project" do
+      visit projects_path
+
+      click_on 'Join project'
+
+      expect(user.projects.count).to eq(1)
+    end
+  end
+
+  describe "unjoin project" do
+    let(:project) { create :project, users: [user] }
+
+    before do
+      team.ownerships.create(project: project, is_owner: true)
+    end
+
+    it "unjoin a project" do
+      visit projects_path
+
+      within ".project-item" do
+        find('.dropdown').click
+
+        click_on 'Leave project'
+      end
+
+      expect(user.projects.count).to eq(0)
+    end
+  end
 end

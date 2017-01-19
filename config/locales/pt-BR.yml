@@ -7,6 +7,7 @@ pt-BR:
   login:   "Entrar"
   sign_up:  "Inscreva-se"
   edit:     "Editar"
+  options:  "Opções"
   settings: "Configurações"
   reports:  "Relatórios"
   back:     "Voltar"
@@ -29,6 +30,8 @@ pt-BR:
   accepted_points: "Pontos Aceitos"
   change team: "Trocar de Equipe"
   team: "Equipe"
+  join: "Juntar-se"
+  by_clicking: "Clicando em"
 
   save: "Salvar"
   delete: "Apagar"
@@ -183,6 +186,12 @@ pt-BR:
     project_members: "Membros do projeto"
     available_users: "Membros disponíveis"
     select: "Selecionar projeto"
+    join: "Juntar-se ao projeto"
+    unjoin: "Sair do projeto"
+    mine: "Meus projetos"
+    not_member_of: "Projetos de que não sou membro"
+    you_are_not_a_member: "Você não é membro destes projetos, mas você pode"
+    to_view_more_join: "Para ver mais, junte-se ao projeto"
     reports:
       n months ago:
         one: "1 mês atrás"
@@ -260,7 +269,8 @@ pt-BR:
     You are not authorized to perform this action: "Você não está autorizado para executar esta ação."
     is already a member of this project: "%{email} já é um membro deste projeto"
     was sent an invite to join this project: "%{email} foi enviado um convite para participar deste projeto"
-    was added to this project: "%{email} foi adicionada a este projecto"
+    was added to this project: "%{email} foi adicionada a este projeto"
+    was removed from this project: "%{email} foi removido deste projeto"
     admin_on: Torne Administrator
     admin_off: Torne apenas Membro
 

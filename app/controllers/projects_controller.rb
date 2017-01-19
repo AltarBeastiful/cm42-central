@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, except: %i[new create index archived]
+  before_action :set_project, except: %i[new create index archived join]
 
   Project::MAX_MEMBERS_PER_CARD = 4;
 
@@ -7,6 +7,8 @@ class ProjectsController < ApplicationController
   # GET /projects.xml
   def index
     @projects = policy_scope(Project).not_archived
+    @projects_without_current_user = current_team.projects.joinable.not_archived.where.not(id: current_user.projects).order(:updated_at)
+
     @activities_group = Activity.grouped_activities(@projects, 1.week.ago)
 
     respond_to do |format|
@@ -86,6 +88,17 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(projects_url) }
       format.xml  { head :ok }
+    end
+  end
+
+  def join
+    project = current_team.projects.joinable.where.not(id: current_user.projects).where(slug: params[:id]).first!
+    authorize project
+
+    respond_to do |format|
+      project.users << current_user
+      format.html { redirect_to(project, notice: I18n.t('was added to this project', scope: 'users', email: current_user.email)) }
+      format.xml  { render xml: project, status: :created, location: project }
     end
   end
 
@@ -206,7 +219,7 @@ class ProjectsController < ApplicationController
   end
 
   def allowed_params
-    params.fetch(:project,{}).permit(:name, :point_scale, :default_velocity, :start_date, :iteration_start_day, :iteration_length, :import, :archived)
+    params.fetch(:project,{}).permit(:name, :point_scale, :default_velocity, :start_date, :iteration_start_day, :iteration_length, :import, :archived, :disallow_join)
   end
 
   def set_project

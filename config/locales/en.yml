@@ -10,6 +10,7 @@ en:
   login:   "Log in"
   sign_up:  "Sign up"
   edit:     "Edit"
+  options:  "Options"
   settings: "Settings"
   reports:  "Reports"
   delete:   "Delete"
@@ -33,6 +34,8 @@ en:
   accepted_points: "Accepted Points"
   change team: "Change Team"
   team: "Team"
+  join: "Join"
+  by_clicking: "By clicking the"
 
   save: "Save"
   cancel: "Cancel"
@@ -181,6 +184,12 @@ en:
     project_members: "Project Members"
     available_users: "Available Members"
     select: "Select project"
+    join: "Join project"
+    unjoin: "Leave project"
+    mine: "My projects"
+    not_member_of: "Projects I'm not member of"
+    you_are_not_a_member: "You're not a member of these projects, but you can"
+    to_view_more_join: "To view more, join the project"
     reports:
       n months ago:
         one: "1 month ago"
@@ -259,6 +268,7 @@ en:
     is already a member of this project: "%{email} is already a member of this project"
     was sent an invite to join this project: "%{email} was sent an invite to join this project"
     was added to this project: "%{email} was added to this project"
+    was removed from this project: "%{email} was removed from this project"
     admin_on: Make Administrator
     admin_off: Make just Member
 

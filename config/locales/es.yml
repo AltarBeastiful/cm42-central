@@ -7,6 +7,7 @@ es:
   login:   "Iniciar sesión"
   sign_up:  "Regístrate"
   edit:     "Editar"
+  options:  "Opciones"
   settings: "Ajustes"
   reports:  "Informes"
   back:     "Atras"
@@ -29,6 +30,8 @@ es:
   accepted_points: "Puntos aceptados"
   change team: "Cambiar Equipo"
   team: "Equipo"
+  join: "Unirse"
+  by_clicking: "Al hacer clic en"
 
   save: "Guardar"
   delete: "Borrar"
@@ -172,6 +175,12 @@ es:
     project_members: "Miembros del Proyecto"
     available_users: "Miembros disponibles"
     select: "Seleccionar proyecto"
+    join: "Unirse al proyecto"
+    unjoin: "Dejar el proyecto"
+    mine: "Mis proyectos"
+    not_member_of: "Proyectos de los que no soy miembro"
+    you_are_not_a_member: "Usted no es miembro de estos proyectos, pero puede"
+    to_view_more_join: "Para ver más, únase al proyecto"
     reports:
       n months ago:
         one: "Hace 1 mes"
@@ -250,6 +259,7 @@ es:
     is already a member of this project: "%{email} ya es un miembro de este proyecto"
     was sent an invite to join this project: "Se ha enviado una invitación a %{email} para unirse a este proyecto"
     was added to this project: "%{email} se añadió a este proyecto"
+    was removed from this project: "%{email} fue eliminado de este proyecto"
     admin_on: Hacer administrador
     admin_off: Hacer miembro
 

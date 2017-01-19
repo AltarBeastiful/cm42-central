@@ -32,6 +32,11 @@
     <div class="col-sm-8"><%= f.select :iteration_length, iteration_length_options %></div>
   </div>
 
+  <div class="field-wrapper">
+    <%= f.label :disallow_join, class: 'col-sm-4 control-label' %>
+    <div class="col-sm-8"><%= f.check_box :disallow_join %></div>
+  </div>
+
   <div class="btn-group actions pull-right">
     <%= f.submit nil, class: 'btn btn-primary' %>
 

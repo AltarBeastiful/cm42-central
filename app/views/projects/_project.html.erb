@@ -1,56 +1,90 @@
+<% projects.each do |project| %>
 <div class="col-md-6 project-item">
   <div class="panel panel-default card animated scale-in">
     <div class="panel-heading">
-      <%= link_to truncate(project.name, length: 18), project, class: 'card-title' %>
-      <div class="icons pull-right">
-        <%= link_to reports_project_path(project), class: 'unstyled-link', data: {toggle: 'tooltip', placement: 'top', title: t('reports')} do %>
-          <i class="mi md-20 heading-icon">insert_chart</i>
-        <% end %>
+      <% if is_project_member %>
+        <%= link_to truncate(project.name, length: 18), project, class: 'card-title' %>
+        <div class="icons pull-right">
+          <%= link_to reports_project_path(project), class: 'unstyled-link', data: {toggle: 'tooltip', placement: 'top', title: t('reports')} do %>
+            <i class="mi md-20 heading-icon">insert_chart</i>
+          <% end %>
 
-        <% if policy(User).update? %>
           <%= link_to project_users_path(project), class: 'unstyled-link', data: {toggle: 'tooltip', placement: 'top', title: User.model_name.human(count: 2)} do %>
             <i class="mi md-20 heading-icon">group</i>
           <% end %>
-        <% end %>
 
-        <% if policy(project).update? %>
-          <%= link_to edit_project_path(project), class: 'unstyled-link', data: {toggle: 'tooltip', placement: 'top', title: t('settings')} do %>
-            <i class="mi md-20 heading-icon">settings</i>
-          <% end %>
-        <% end %>
-      </div>
+          <span class="dropdown">
+            <a class="unstyled-link" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="mi md-20 heading-icon">settings</i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+              <li class="dropdown-header">
+                <%= t('options') %>
+              </li>
+
+              <% if policy(User).update? %>
+                <li>
+                  <%= link_to t('settings'), edit_project_path(project), data: {toggle: 'tooltip', placement: 'top', title: t('settings')} %>
+                </li>
+              <% end %>
+
+              <li class="divider"></li>
+              <li>
+                <%= link_to t('projects.unjoin'),
+                            project_user_path(project, current_user),
+                            data: { confirm: t('remove user confirm', email: current_user.email) },
+                            method: :delete %>
+              </li>
+            </ul>
+          </span>
+        </div>
+      <% else %>
+        <div class="card-title"><%= truncate(project.name, length: 25) %></div>
+      <% end %>
     </div>
 
     <div class="panel-body">
-      <div class="col-md-6 col-xs-6 counter">
-        <span class="counter-description">Velocity</span>
-        <span class="counter-value"><%= project.iteration_service(since: 4.months.ago).velocity %></span>
-      </div>
+      <% if is_project_member %>
+        <div class="col-md-6 col-xs-6 counter">
+          <span class="counter-description">Velocity</span>
+          <span class="counter-value"><%= project.iteration_service(since: 4.months.ago).velocity %></span>
+        </div>
 
-      <div class="col-md-6 col-xs-6 counter">
-        <span class="counter-description">Volatility</span>
-        <span class="counter-value"><%= number_to_percentage(project.iteration_service(since: 4.months.ago).volatility * 100.0, precision: 0) %></span>
-      </div>
+        <div class="col-md-6 col-xs-6 counter">
+          <span class="counter-description">Volatility</span>
+          <span class="counter-value"><%= number_to_percentage(project.iteration_service(since: 4.months.ago).volatility * 100.0, precision: 0) %></span>
+        </div>
 
-      <div class="col-md-12 members">
-        <ul class="member-list">
-          <% project.users.first(Project::MAX_MEMBERS_PER_CARD).each do |user| %>
-            <li class="member">
-                <% cache "user/#{user.email}/avatar", expires_in: 1.hour do %>
-                <img class="identicon" src="<%= avatar_url(user) %>" data-toggle="tooltip" data-placement="top" title="<%= user.name %>">
-              <% end %>
-            </li>
-          <% end %>
+        <div class="col-md-12 members">
+          <ul class="member-list">
+            <% project.users.first(Project::MAX_MEMBERS_PER_CARD).each do |user| %>
+              <li class="member">
+                  <% cache "user/#{user.email}/avatar", expires_in: 1.hour do %>
+                  <img class="identicon" src="<%= avatar_url(user) %>" data-toggle="tooltip" data-placement="top" title="<%= user.name %>">
+                <% end %>
+              </li>
+            <% end %>
 
-          <% if project.users.size > Project::MAX_MEMBERS_PER_CARD %>
-            <li class="member">
-              <div class="additional">+<%= project.users.size - Project::MAX_MEMBERS_PER_CARD %></div>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+            <% if project.users.size > Project::MAX_MEMBERS_PER_CARD %>
+              <li class="member">
+                <%= link_to project_users_path(project) do %>
+                  <div class="additional">+<%= project.users.size - Project::MAX_MEMBERS_PER_CARD %></div>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <p class="text-center"><%= t('projects.to_view_more_join') %></p>
+      <% end %>
     </div>
 
-    <%= link_to t('projects.select'), project, class: 'card-footer panel-footer' %>
+    <% if is_project_member %>
+      <%= link_to t('projects.select'), project, class: 'card-footer panel-footer' %>
+    <% else %>
+      <%= link_to t('projects.join'), join_project_path(project), class: 'card-footer panel-footer' %>
+    <% end %>
   </div>
 </div>
+<% end %>

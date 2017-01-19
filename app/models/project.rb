@@ -19,6 +19,8 @@ class Project < ActiveRecord::Base
 
   has_attachment :import, accept: [:raw]
 
+  scope :joinable, -> { where(disallow_join: false) }
+
   def last_changeset_id
     changesets.last && changesets.last.id
   end
